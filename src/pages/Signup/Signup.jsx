@@ -2,8 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { auto } from "@popperjs/core";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { createUser } from "../../apis/users";
+import { useNavigate } from "react-router";
 
 function Signup() {
+  // mettre en place la navigation
+  const navigate = useNavigate();
+
   // Validation des données côté client avec yup
   const userSchema = yup.object({
     firstname: yup
@@ -21,11 +26,11 @@ function Signup() {
     email: yup.string().email("Format invalide").required("Email obligatoire"),
     password: yup
       .string()
-      .min(3, "Min 6 caractères")
+      .min(6, "Min 6 caractères")
       .max(15, "Max 15 caractères"),
     confirmPassword: yup
       .string()
-      .min(3, "Min 6 caractères")
+      .min(6, "Min 6 caractères")
       .max(15, "Max 15 caractères")
       .oneOf(
         [yup.ref("password", "")],
@@ -45,6 +50,8 @@ function Signup() {
   const {
     register,
     formState: { errors, isSubmitting },
+    setError,
+    clearErrors,
     handleSubmit,
   } = useForm({
     defaultValues: defaultValues,
@@ -54,8 +61,24 @@ function Signup() {
   });
 
   // Gestion de la soumission du formulaire
-  const submit = (credentials) => {
+  const submit = async (credentials) => {
+    clearErrors(); // Nettoyer les erreurs serveur si présentes
     console.log(credentials);
+    // Extraire le nouvel objet utilisateur sans le doublon de mot de passe de confirmation
+    const { confirmPassword, ...newUser } = credentials;
+
+    try {
+      const user = await createUser(newUser);
+
+      if (user) {
+        navigate("/connexion");
+      }
+    } catch (error) {
+      setError("generic", {
+        type: "server",
+        message: error.detail || error.description || "Erreur serveur",
+      });
+    }
   };
 
   return (
@@ -165,7 +188,9 @@ function Signup() {
           >
             Soumettre
           </button>
-          {errors.generic && <p>{errors.generic.message}</p>}
+          {errors.generic && (
+            <p className="text-danger mt-2">{errors.generic.message}</p>
+          )}
         </form>
       </section>
     </>
