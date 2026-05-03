@@ -21,11 +21,18 @@ export async function createUser(newUser){
 
 export async function deleteUser(idUser){
      const response = await fetch(`${API_USERS}/${idUser}`, {
-        method: 'DELETE'    
+        method: 'DELETE', 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`        
+        }
     })
 
+    const body = await response.json();
+
     if(response.ok){
-        const data = await response.json();
-        return data;
+       return body; // réponse avec succès
+    }else {
+        throw body; // retourner une erreur
     }
 }
