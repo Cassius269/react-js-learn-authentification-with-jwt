@@ -7,7 +7,7 @@ import { AuthContext } from "./context/AuthContext";
 
 function App() {
   const { user } = useLoaderData(); // récupérer l'utilisateur depuis le loader de la route racine
-  const [currentUser, setUser] = useState(user ?? null);
+  const [currentUser, setCurrentUser] = useState(user ?? null);
 
   useEffect(() => {
     if (user) {
