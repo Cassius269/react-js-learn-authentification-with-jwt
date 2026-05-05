@@ -1,14 +1,20 @@
 import { createBrowserRouter } from "react-router";
 import App from "../App";
 import { lazy } from "react";
+import rootLoader from "../loaders/rootLoader";
 
 const Homepage = lazy(() => import("../pages/Homepage/Homepage"));
 const Signin = lazy(() => import("../pages/Signin/Signin"));
 const Signup = lazy(() => import("../pages/Signup/Signup"));
+const Profile = lazy(() => import("../pages/Profile/Profile"));
 
 export const ROUTER = createBrowserRouter([
   {
     path: "/",
+    loader: rootLoader,
+    hydrateFallbackElement: (
+      <p className="text-center mt-5">Chargement des données du loader</p>
+    ),
     Component: App,
     children: [
       {
@@ -23,6 +29,10 @@ export const ROUTER = createBrowserRouter([
       {
         path: "connexion",
         Component: Signin,
+      },
+      {
+        path: "profile",
+        Component: Profile,
       },
     ],
   },

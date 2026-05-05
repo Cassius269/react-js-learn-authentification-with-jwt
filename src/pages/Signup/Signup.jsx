@@ -61,11 +61,11 @@ function Signup() {
   });
 
   // Gestion de la soumission du formulaire
-  const submit = async (credentials) => {
+  const submit = async (user) => {
     clearErrors(); // Nettoyer les erreurs serveur si présentes
-    console.log(credentials);
+    console.log(user);
     // Extraire le nouvel objet utilisateur sans le doublon de mot de passe de confirmation
-    const { confirmPassword, ...newUser } = credentials;
+    const { confirmPassword, ...newUser } = user;
 
     try {
       const user = await createUser(newUser);
@@ -76,15 +76,19 @@ function Signup() {
     } catch (error) {
       setError("generic", {
         type: "server",
-        message: error.detail || error.description || "Erreur serveur",
+        message:
+          error.message ||
+          error.detail ||
+          error.description ||
+          "Erreur serveur",
       });
     }
   };
 
   return (
     <>
-      <section>
-        <h2>Page d'inscription</h2>
+      <section className="mt-4 mb-5">
+        <h2 className="text-center">Page d'inscription</h2>
         <form
           action="#"
           onSubmit={handleSubmit(submit)}
