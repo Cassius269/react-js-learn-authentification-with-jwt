@@ -6,8 +6,8 @@ import { AuthContext } from "../../context/AuthContext";
 
 function Header() {
   const [isActive, setIsActive] = useState(false);
-  const user = useContext(AuthContext);
-
+  const { user, logout } = useContext(AuthContext);
+  console.log("header user =", user);
   const handleClick = () => {
     setIsActive(!isActive); // Changer la valeur de l'état et re-render le composant <Header />
   };
@@ -56,7 +56,17 @@ function Header() {
             </NavLink>
           </li>
         )}
-        {!user && (
+        {user ? (
+          <li>
+            <button
+              onClick={() => logout(user)}
+              type="button"
+              className="btn btn-dark"
+            >
+              Déconnecter
+            </button>
+          </li>
+        ) : (
           <li>
             <NavLink to="/connexion">
               <button type="button" className="btn btn-dark">

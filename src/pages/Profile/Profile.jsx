@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 function Profile() {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   console.log("hello", user?.firstname);
 
   return (

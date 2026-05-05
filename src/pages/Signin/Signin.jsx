@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useNavigate } from "react-router";
 import { signin } from "../../apis/auth";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 function Signin() {
   const { user, login } = useContext(AuthContext);
+
+  console.log(user);
 
   // mettre en place la navigation
   const navigate = useNavigate();
@@ -49,9 +51,10 @@ function Signin() {
     try {
       console.log(credentials);
       // récupérer le token si identifiants valides
-      const user = await signin(credentials);
-      console.log(user);
-      if (user) {
+      const connectedUser = await signin(credentials);
+      console.log(connectedUser);
+      if (connectedUser) {
+        login(connectedUser);
         console.log("Authentification réussie");
         navigate("/"); // rediriger à la page d'accueil
       }
