@@ -25,6 +25,7 @@ async function signin(credentials) {
   }
 }
 
+// Réquête pour récupérer l'utilisateur courant
 async function getCurrentUser(){
     try {
         const response = await fetch(`${API}/me`,{
@@ -43,4 +44,11 @@ async function getCurrentUser(){
     }
 }
 
-export {signin, getCurrentUser};
+// Réquête pour se déconnecter de l'API
+async function signout() {
+  await fetch(`${API}/logout`, {
+    method:'DELETE'
+  });
+}
+
+export {signin, signout, getCurrentUser};

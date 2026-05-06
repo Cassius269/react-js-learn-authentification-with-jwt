@@ -59,7 +59,7 @@ function Header() {
         {user ? (
           <li>
             <button
-              onClick={() => logout(user)}
+              onClick={() => logout()}
               type="button"
               className="btn btn-dark"
             >
