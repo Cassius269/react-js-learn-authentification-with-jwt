@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import popoverStyles from "../../assets/styles/layouts/PopOver.module.scss";
 
-const Popover = ({ setIsActive, user }) => {
+const Popover = ({ setIsActive, user, logout }) => {
   return (
     <>
       <div className="position-relative">
@@ -28,11 +28,23 @@ const Popover = ({ setIsActive, user }) => {
               </NavLink>
             </li>
           )}
-          {!user && (
+          {user ? (
+            <li>
+              <NavLink
+                onClick={() => {
+                  logout();
+                  setIsActive(false);
+                }}
+                to="/connexion"
+              >
+                Déconnecter
+              </NavLink>
+            </li>
+          ) : (
             <li>
               <NavLink onClick={() => setIsActive(false)} to="/connexion">
                 Connexion
-              </NavLink>{" "}
+              </NavLink>
             </li>
           )}
         </ul>

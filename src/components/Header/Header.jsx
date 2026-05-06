@@ -78,7 +78,9 @@ function Header() {
       </ul>
 
       {/* Header mobile */}
-      {isActive && <Popover setIsActive={setIsActive} user={user} />}
+      {isActive && (
+        <Popover setIsActive={setIsActive} user={user} logout={logout} />
+      )}
       <i
         popoverTarget="my-popover"
         role="button"

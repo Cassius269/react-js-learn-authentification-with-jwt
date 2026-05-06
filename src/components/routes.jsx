@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import App from "../App";
 import { lazy } from "react";
 import rootLoader from "../loaders/rootLoader";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 
 const Homepage = lazy(() => import("../pages/Homepage/Homepage"));
 const Signin = lazy(() => import("../pages/Signin/Signin"));
@@ -32,7 +33,11 @@ export const ROUTER = createBrowserRouter([
       },
       {
         path: "profile",
-        Component: Profile,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
